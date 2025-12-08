@@ -5,7 +5,7 @@ import time
 
 PORT = "COM3"   
 BAUD = 9600          
-CSV_FILENAME = "Data\Copper_Data_06.11.2025\C_Data07_06.csv"
+CSV_FILENAME = "Data\Copper_Data_06.11.2025\C_Data12_11.csv"
 num_samples = 1000
 
 
