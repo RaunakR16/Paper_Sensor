@@ -13,17 +13,13 @@ data10 = pd.read_csv("Data\Graphite_Data_06.11.2025\G_Data10_09.csv", encoding='
 data12 = pd.read_csv("Data\Graphite_Data_06.11.2025\G_Data12_11.csv", encoding='latin1')
 
 # data1 = pd.read_csv("Data\Copper_Data_06.11.2025\C_Data01_00.csv", encoding='latin1')
-# #data2 = pd.read_csv("Data\Copper_Data_06.11.2025\C_Data02_01.csv", encoding='latin1')
 # data3 = pd.read_csv("Data\Copper_Data_06.11.2025\C_Data03_02.csv", encoding='latin1')
 # data4 = pd.read_csv("Data\Copper_Data_06.11.2025\C_Data04_03.csv", encoding='latin1')
 # data5 = pd.read_csv("Data\Copper_Data_06.11.2025\C_Data05_04.csv", encoding='latin1')
 # data6 = pd.read_csv("Data\Copper_Data_06.11.2025\C_Data06_05.csv", encoding='latin1')
-# #data7 = pd.read_csv("Data\Copper_Data_06.11.2025\C_Data07_06.csv", encoding='latin1')
 # data8 = pd.read_csv("Data\Copper_Data_06.11.2025\C_Data08_07.csv", encoding='latin1')
 # data9 = pd.read_csv("Data\Copper_Data_06.11.2025\C_Data09_08.csv", encoding='latin1')
 # data10 = pd.read_csv("Data\Copper_Data_06.11.2025\C_Data10_09.csv", encoding='latin1')
-# # data11 = pd.read_csv("Data\Copper_Data_06.11.2025\C_Data11_10.csv", encoding='latin1')
-# # data12 = pd.read_csv("Data\Copper_Data_06.11.2025\C_Data12_11.csv", encoding='latin1')
 
 # GRAPHITE DATA
 datasets = [
