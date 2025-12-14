@@ -4,9 +4,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# -------- USER SETTINGS --------
-#----------------------------------------------------------------------- Graphite data
-# base_path = "Data/Graphite_Data_06.11.2025"  # adjust if needed
+# -------------------------------------------------------------------------------------------------------DATA FILES
+#--------------------------------------------------------------------- Graphite data
+# base_path = "Data/Graphite_Data_06.11.2025" 
 # files = [
 #     "G_Data01_00.csv",
 #     "G_Data02_01.csv",
@@ -133,76 +133,67 @@ mins_sorted = summary_df['min_smoothed'].tolist()
 maxs_sorted = summary_df['max_smoothed'].tolist()
 
 
-# ---------- Plot grouped bar chart with joined max & min lines ----------------------------------------------------- [1]
-# x = np.arange(len(labels_sorted))
-# width = 0.35
-
-# plt.figure(figsize=(11,6))
-
-# a = x - width/2
-# b = x + width/2
-
-# # Bars
-# #plt.bar(a, mins_sorted, width, label='Min (smoothed)', alpha=0.7)
-# #plt.bar(b, maxs_sorted, width, label='Max (smoothed)', alpha=0.7)
-
-# # ---- JOIN THE HIGHEST POINTS WITH LINES ----
-# plt.plot(a, mins_sorted, marker='o', linestyle='-', linewidth=2, label='Min trend')
-# plt.plot(b, maxs_sorted, marker='o', linestyle='-', linewidth=2, label='Max trend')
-
-# plt.xticks(x, labels_sorted, rotation=45)
-# plt.xlabel("Sample / Concentration")
-# plt.ylabel("ADC (smoothed)")
-# plt.title(f"Min & Max of Smoothed ADC per Sample with Trend Lines (MA window={MA_WINDOW})")
-
-# plt.legend()
-# plt.grid(axis='y', linestyle='--', alpha=0.5)
-# plt.tight_layout()
-# plt.show()
-
 # ---------- Plot grouped bar chart with joined max & min lines ---------------------------------------------------- [2]
+
 x = np.arange(len(labels_sorted))
 width = 0.35
+# 1 = linear, 2 = quadratic
+degree = 1
 
 plt.figure(figsize=(11,6))
 
 a = x - width/2   # x-positions for min
 b = x + width/2   # x-positions for max
 
-# ---- ORIGINAL JOINED LINES ----
+# ---------------------------------------------------------------------------------------Bars
+plt.bar(a, mins_sorted, width, label='Min (smoothed)', alpha=0.7)
+plt.bar(b, maxs_sorted, width, label='Max (smoothed)', alpha=0.7)
+
+#---------------------------------------------------------------------------------------- Joining Lines
 plt.plot(a, mins_sorted, marker='o', linestyle='-', linewidth=2, label='Min trend')
 plt.plot(b, maxs_sorted, marker='o', linestyle='-', linewidth=2, label='Max trend')
 
-# ---- BEST-FIT CURVES ----
-# Degree of fit (1 = linear, 2 = quadratic)
-FIT_DEGREE = 1
+# --------------------------------------------------- y = mx + c 
+# Min fit
+m_min, c_min = np.polyfit(a, mins_sorted, degree)
+y_min_fit = m_min * a + c_min
 
-# Fit for Min
-coef_min = np.polyfit(a, mins_sorted, FIT_DEGREE)
-fit_min = np.poly1d(coef_min)
+# Max fit
+m_max, c_max = np.polyfit(b, maxs_sorted, degree)
+y_max_fit = m_max * b + c_max
 
-# Fit for Max
-coef_max = np.polyfit(b, maxs_sorted, FIT_DEGREE)
-fit_max = np.poly1d(coef_max)
+# ---------------------------------------------------- R²
+def r_squared(y, y_fit):
+    ss_res = np.sum((y - y_fit) ** 2)
+    ss_tot = np.sum((y - np.mean(y)) ** 2)
+    return 1 - ss_res / ss_tot
 
-# Dense x for smooth curve
-x_dense = np.linspace(a.min(), b.max(), 300)
+r2_min = r_squared(np.array(mins_sorted), y_min_fit)
+r2_max = r_squared(np.array(maxs_sorted), y_max_fit)
 
-plt.plot(x_dense, fit_min(x_dense), linestyle='--', linewidth=2, label=f'Min best-fit (deg={FIT_DEGREE})')
-plt.plot(x_dense, fit_max(x_dense), linestyle='--', linewidth=2, label=f'Max best-fit (deg={FIT_DEGREE})')
+x_dense_min = np.linspace(a.min(), a.max(), 300)
+x_dense_max = np.linspace(b.min(), b.max(), 300)
+
+plt.plot(x_dense_min, m_min * x_dense_min + c_min, linestyle='--', linewidth=2, label=f"Min fit: y={m_min:.3f}x+{c_min:.3f}, R²={r2_min:.4f}")
+plt.plot(x_dense_max, m_max * x_dense_max + c_max, linestyle='--', linewidth=2, label=f"Max fit: y={m_max:.3f}x+{c_max:.3f}, R²={r2_max:.4f}")
 
 plt.xticks(x, labels_sorted, rotation=45)
 plt.xlabel("Sample / Concentration")
 plt.ylabel("ADC (smoothed)")
-plt.title(f"Min & Max of Smoothed ADC with Best-Fit Curves (MA window={MA_WINDOW})")
+plt.title(f"Min & Max of Smoothed ADC with Linear Fit (MA window={MA_WINDOW})")
 
 plt.legend()
 plt.grid(axis='y', linestyle='--', alpha=0.5)
 plt.tight_layout()
 plt.show()
 
+# ---- PRINT EQUATIONS CLEARLY (FOR REPORT) ----
+print("\nLinear Fit Results:")
+print(f"Min curve : y = {m_min:.6f}x + {c_min:.6f},  R² = {r2_min:.6f}")
+print(f"Max curve : y = {m_max:.6f}x + {c_max:.6f},  R² = {r2_max:.6f}")
 
-# ---------- X vs Y plot for all concentrations ----------
+
+# ------------------------------------------------------------------------------------------------- X vs Y plot for all concentrations 
 # Choose the y-metric based on METRIC variable
 if METRIC == 'mean':
     y_vals = summary_df['mean_smoothed'].astype(float).values
