@@ -38,6 +38,7 @@ files = [
     "C_Data08_07.csv",
     "C_Data09_08.csv",
     "C_Data10_09.csv",
+
     "C_Data12_11.csv",
 ]
 
@@ -80,7 +81,7 @@ for fname in files:
     except Exception as e:
         print(f"Error reading {path}: {e}")
         continue
-
+    # ------------------------------------------------------------------ check for column    
     if 'ADC_Value' not in df.columns:
         print(f"Skipping {fname}: no 'ADC_Value' column.")
         continue
@@ -145,12 +146,12 @@ a = x - width/2
 b = x + width/2
 
 # --------------------------------------------------------------------- Bars
-# plt.bar(a, mins_sorted, width, label='Min (smoothed)', alpha=0.7)
-# plt.bar(b, maxs_sorted, width, label='Max (smoothed)', alpha=0.7)
+plt.bar(a, mins_sorted, width, label='Min (smoothed)', alpha=0.7)
+plt.bar(b, maxs_sorted, width, label='Max (smoothed)', alpha=0.7)
 
-# ----------------------------------------------------------------------Joined trend lines
-plt.plot(a, mins_sorted, '-', linewidth=2, label='Min trend')
-plt.plot(b, maxs_sorted, '-', linewidth=2, label='Max trend')
+# ----------------------------------------------------------------------Joined bars
+plt.plot(a, mins_sorted, '-', linewidth=1, label='Min trend')
+plt.plot(b, maxs_sorted, '-', linewidth=1, label='Max trend')
 
 # -------------------------------------------------------Linear fits
 m_min, c_min = np.polyfit(a, mins_sorted, degree)
@@ -170,8 +171,26 @@ r2_max = r_squared(np.array(maxs_sorted), y_max_fit)
 x_dense_min = np.linspace(a.min(), a.max(), 300)
 x_dense_max = np.linspace(b.min(), b.max(), 300)
 
-plt.plot(x_dense_min, m_min*x_dense_min + c_min, '--', linewidth=2, label=f"Min fit: y={m_min:.3f}x+{c_min:.3f}, R²={r2_min:.4f}")
-plt.plot(x_dense_max, m_max*x_dense_max + c_max, '--', linewidth=2, label=f"Max fit: y={m_max:.3f}x+{c_max:.3f}, R²={r2_max:.4f}")
+Y_dense_min = m_min * x_dense_min + c_min
+Y_dense_max = m_max * x_dense_max + c_max
+
+# ------------------------------------------------------------------------------------------------------------------- Plotting fits with equations and R²
+plt.plot(x_dense_min, Y_dense_min, '--', linewidth=1, label=f"Min fit: y={m_min:.3f}x+{c_min:.3f}, R²={r2_min:.4f}", color='red')
+plt.plot(x_dense_max, Y_dense_max, '--', linewidth=1, label=f"Max fit: y={m_max:.3f}x+{c_max:.3f}, R²={r2_max:.4f}", color='blue')
+
+# -----------------------------------------------------------------------------------Avg fit line between min-max fits & R²
+Avg = (Y_dense_min + Y_dense_max) / 2
+
+# Linear fit for Avg curve
+m_avg, c_avg = np.polyfit(x_dense_min, Avg, 1)
+Y_avg_fit = m_avg * x_dense_min + c_avg
+
+# R² for Avg curve
+r2_avg = r_squared(Avg, Y_avg_fit)
+
+# Plot Avg best-fit line (optional overlay, same line)
+plt.plot(x_dense_min, Y_avg_fit, ':', linewidth=2, label=f"Avg fit eqn: y={m_avg:.3f}x+{c_avg:.3f}, R²={r2_avg:.4f}", color='darkgreen')
+
 
 plt.xticks(x, labels_sorted, rotation=45)
 plt.xlabel("Sample / Concentration (gm/20ml)")
@@ -186,6 +205,7 @@ plt.show()
 print("\nLinear Fit Results:")
 print(f"Min curve : y = {m_min:.6f}x + {c_min:.6f},  R² = {r2_min:.6f}")
 print(f"Max curve : y = {m_max:.6f}x + {c_max:.6f},  R² = {r2_max:.6f}")
+print(f"Avg curve : y = {m_avg:.6f}x + {c_avg:.6f},  R² = {r2_avg:.6f}")
 
 # ==================================================================================================== X vs Y CHARACTERISTIC PLOT (SELECTED METRIC)
 
@@ -222,7 +242,7 @@ for xv, yv, lab in zip(x_vals, y_vals, summary_df['label']):
 
 plt.xlabel(x_label)
 plt.ylabel(f"{METRIC.capitalize()} ADC (smoothed)")
-plt.title(f"Concentration vs {METRIC.capitalize()} ADC (MA window={MA_WINDOW})")
+plt.title(f"{TYP} Sensor Concentration vs {METRIC.capitalize()} ADC (MA window={MA_WINDOW})")
 plt.grid(axis='y', linestyle='--', alpha=0.5)
 plt.legend()
 plt.tight_layout()
