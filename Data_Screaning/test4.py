@@ -132,26 +132,75 @@ labels_sorted = summary_df['label'].tolist()
 mins_sorted = summary_df['min_smoothed'].tolist()
 maxs_sorted = summary_df['max_smoothed'].tolist()
 
-# ---------- Plot grouped bar chart ----------
+
+# ---------- Plot grouped bar chart with joined max & min lines ----------------------------------------------------- [1]
+# x = np.arange(len(labels_sorted))
+# width = 0.35
+
+# plt.figure(figsize=(11,6))
+
+# a = x - width/2
+# b = x + width/2
+
+# # Bars
+# #plt.bar(a, mins_sorted, width, label='Min (smoothed)', alpha=0.7)
+# #plt.bar(b, maxs_sorted, width, label='Max (smoothed)', alpha=0.7)
+
+# # ---- JOIN THE HIGHEST POINTS WITH LINES ----
+# plt.plot(a, mins_sorted, marker='o', linestyle='-', linewidth=2, label='Min trend')
+# plt.plot(b, maxs_sorted, marker='o', linestyle='-', linewidth=2, label='Max trend')
+
+# plt.xticks(x, labels_sorted, rotation=45)
+# plt.xlabel("Sample / Concentration")
+# plt.ylabel("ADC (smoothed)")
+# plt.title(f"Min & Max of Smoothed ADC per Sample with Trend Lines (MA window={MA_WINDOW})")
+
+# plt.legend()
+# plt.grid(axis='y', linestyle='--', alpha=0.5)
+# plt.tight_layout()
+# plt.show()
+
+# ---------- Plot grouped bar chart with joined max & min lines ---------------------------------------------------- [2]
 x = np.arange(len(labels_sorted))
 width = 0.35
 
 plt.figure(figsize=(11,6))
-plt.bar(x - width/2, mins_sorted, width, label='Min (smoothed)')
-plt.bar(x + width/2, maxs_sorted, width, label='Max (smoothed)')
+
+a = x - width/2   # x-positions for min
+b = x + width/2   # x-positions for max
+
+# ---- ORIGINAL JOINED LINES ----
+plt.plot(a, mins_sorted, marker='o', linestyle='-', linewidth=2, label='Min trend')
+plt.plot(b, maxs_sorted, marker='o', linestyle='-', linewidth=2, label='Max trend')
+
+# ---- BEST-FIT CURVES ----
+# Degree of fit (1 = linear, 2 = quadratic)
+FIT_DEGREE = 1
+
+# Fit for Min
+coef_min = np.polyfit(a, mins_sorted, FIT_DEGREE)
+fit_min = np.poly1d(coef_min)
+
+# Fit for Max
+coef_max = np.polyfit(b, maxs_sorted, FIT_DEGREE)
+fit_max = np.poly1d(coef_max)
+
+# Dense x for smooth curve
+x_dense = np.linspace(a.min(), b.max(), 300)
+
+plt.plot(x_dense, fit_min(x_dense), linestyle='--', linewidth=2, label=f'Min best-fit (deg={FIT_DEGREE})')
+plt.plot(x_dense, fit_max(x_dense), linestyle='--', linewidth=2, label=f'Max best-fit (deg={FIT_DEGREE})')
 
 plt.xticks(x, labels_sorted, rotation=45)
-plt.xlabel("Sample")
+plt.xlabel("Sample / Concentration")
 plt.ylabel("ADC (smoothed)")
-plt.title(f"Min & Max of Smoothed ADC per Sample (MA window={MA_WINDOW})")
+plt.title(f"Min & Max of Smoothed ADC with Best-Fit Curves (MA window={MA_WINDOW})")
+
 plt.legend()
 plt.grid(axis='y', linestyle='--', alpha=0.5)
 plt.tight_layout()
 plt.show()
 
-# Print summary table
-print("\nSummary table (sorted):")
-print(summary_df[['filename','label','parsed_index','min_smoothed','max_smoothed','mean_smoothed','std_smoothed','n_samples']].to_string(index=False))
 
 # ---------- X vs Y plot for all concentrations ----------
 # Choose the y-metric based on METRIC variable
