@@ -3,27 +3,33 @@ import re
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+# -------- USER SETTINGS --------
+#----------------------------------------------------------------------- Graphite data
+# base_path = "Data/Graphite_Data_06.11.2025"  # adjust if needed
+# files = [
+#     "G_Data01_00.csv",
+#     "G_Data02_01.csv",
+#     "G_Data03_02.csv",
+#     "G_Data05_04.csv",
+#     "G_Data06_05.csv",
+#     "G_Data07_06.csv",
+#     "G_Data10_09.csv",
+#     "G_Data12_11.csv"
+# ]
 
-# ------------------ USER SETTINGS ------------------
-base_path = "Data/Graphite_Data_06.11.2025"  # adjust if needed
+#----------------------------------------------------------------------- Copper data
+base_path = "Data\Copper_Data_06.11.2025"  
 files = [
-    "G_Data01_00.csv",
-    "G_Data02_01.csv",
-    "G_Data03_02.csv",
-    "G_Data05_04.csv",
-    "G_Data06_05.csv",
-    "G_Data07_06.csv",
-    "G_Data10_09.csv",
-    "G_Data12_11.csv"
+    "C_Data01_00.csv",
+    "C_Data03_02.csv",
+    "C_Data04_03.csv",
+    "C_Data05_04.csv",
+    "C_Data06_05.csv",
+    "C_Data08_07.csv",
+    "C_Data09_08.csv",
+    "C_Data10_09.csv",
 ]
 
-# Uncomment / replace for copper dataset as needed
-# base_path = "Data/Copper_Data_06.11.2025"
-# files = [
-#     "C_Data01_00.csv",
-#     "C_Data03_02.csv",
-#     ...
-# ]
 
 MA_WINDOW = 1000   # moving-average window (odd recommended). Use 1 for no smoothing.
 ENCODING = 'latin1'
