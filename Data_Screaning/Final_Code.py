@@ -47,7 +47,7 @@ MA_WINDOW = 1000     # Moving-average window size
 ENCODING = 'latin1' 
 METRIC = 'mean'      # Metric for X–Y plot: 'mean' | 'median' | 'max' | 'min' | 'range'
 
-# ===================================================================================================== HELPER FUNCTIONS (Moving Avg)
+# ==================================================================================================== HELPER FUNCTIONS (Moving Avg)
 
 def moving_average(arr, window):
 
