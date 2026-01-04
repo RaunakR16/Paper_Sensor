@@ -5,15 +5,15 @@ import time
 
 PORT = "COM3"   
 BAUD = 9600          
-#CSV_FILENAME = "Data\Copper_Data\C_Data13_00.csv"
+#CSV_FILENAME = "NaCl_Testing\Data\Copper_Data\C_Data13_00.csv"
 
-#CSV_FILENAME = "Data\Graphite_Data\G_Data13_00.csv"
+#CSV_FILENAME = "NaCl_Testing\Data\Graphite_Data\G_Data13_00.csv"
 
-#CSV_FILENAME = "Data\Graphite_INK_Data\GI_Data01_00.csv"
-CSV_FILENAME = "Data\Graphite_INK_Data\DRY_RUN.csv"
+#CSV_FILENAME = "NaCl_Testing\Data\Graphite_INK_Data\GI_Data01_00.csv"
+CSV_FILENAME = "NaCl_Testing\Data\Graphite_INK_Data\DRY_RUN.csv"
 
-#CSV_FILENAME = "Data\Solid_Graphite_Data\SG_Data01_00.csv"
-#CSV_FILENAME = "Data\Solid_Graphite_Data\DRY_RUN.csv"
+#CSV_FILENAME = "NaCl_Testing\Data\Solid_Graphite_Data\SG_Data01_00.csv"
+
 
 num_samples = 1000
 
