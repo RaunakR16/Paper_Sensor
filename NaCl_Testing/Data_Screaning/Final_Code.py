@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 # ----------------------------------------- Graphite data 
 # TYP = 'Graphite'
-# base_path = "Data/Graphite_Data_06.11.2025" 
+# base_path = "NaCl_Testing\Data\Graphite_Data" 
 # files = [
 #     "G_Data01_00.csv",
 #     "G_Data02_01.csv",
@@ -21,27 +21,86 @@ import matplotlib.pyplot as plt
 #     "G_Data09_08.csv",
 #     "G_Data10_09.csv",
 #     "G_Data11_10.csv",
-#     "G_Data12_11.csv"
+#     "G_Data12_11.csv",
+#     "G_Data13_00.csv",
+#     "G_Data14_01.csv",
+#     "G_Data15_02.csv",
+ 
+#     "G_Data17_04.csv",
+
+#     "G_Data19_06.csv",
+#     "G_Data20_07.csv",
+#     "G_Data21_08.csv",
+#     "G_Data22_09.csv",
+
+
 # ]
 
-# ----------------------------------------- Copper data 
-TYP = 'Copper'
-base_path = "Data\Copper_Data_06.11.2025"  
+# # ----------------------------------------- Copper data 
+# TYP = 'Copper'
+# base_path = "NaCl_Testing\Data\Copper_Data"  
+# files = [
+#     "C_Data01_00.csv",
+
+#     "C_Data03_02.csv",
+#     "C_Data04_03.csv",
+#     "C_Data05_04.csv",
+#     "C_Data06_05.csv",
+#     "C_Data07_06.csv",
+#     "C_Data08_07.csv",
+#     "C_Data09_08.csv",
+#     "C_Data10_09.csv",
+
+#     "C_Data12_11.csv",
+#     "C_Data13_00.csv",
+#     "C_Data14_01.csv",
+#     "C_Data15_02.csv",
+#     "C_Data16_03.csv",
+#     "C_Data17_04.csv",
+
+
+#     "C_Data20_07.csv",
+#     "C_Data21_08.csv",
+#     "C_Data22_09.csv",
+#     "C_Data23_10.csv",
+#     "C_Data24_11.csv"
+# ]
+
+# ----------------------------------------- Graphite INK data 
+# TYP = 'Graphite INK'
+# base_path = "NaCl_Testing\Data\Graphite_INK_Data" 
+# files = [
+#     "GI_Data01_00.csv",
+#     "GI_Data02_01.csv",
+#     "GI_Data03_02.csv",
+#     "GI_Data04_03.csv",
+   
+
+#     "GI_Data07_06.csv",
+#     "GI_Data08_07.csv",
+#     "GI_Data09_08.csv",
+#     "GI_Data10_09.csv",
+#     "GI_Data11_10.csv",
+#     "GI_Data12_11.csv"
+# ]
+
+# ----------------------------------------- Solid Graphite data 
+TYP = 'Solid Graphite'
+base_path = "NaCl_Testing\Data\Solid_Graphite_Data" 
 files = [
-    "C_Data01_00.csv",
+    "SG_Data01_00.csv",
+    "SG_Data02_01.csv",
+    "SG_Data03_02.csv",
+    "SG_Data04_03.csv",
+    "SG_Data05_04.csv",
+    "SG_Data06_05.csv",
+    "SG_Data07_06.csv",
 
-    "C_Data03_02.csv",
-    "C_Data04_03.csv",
-    "C_Data05_04.csv",
-    "C_Data06_05.csv",
-    "C_Data07_06.csv",
-    "C_Data08_07.csv",
-    "C_Data09_08.csv",
-    "C_Data10_09.csv",
-
-    "C_Data12_11.csv",
+    "SG_Data09_08.csv",
+    "SG_Data10_09.csv",
+    "SG_Data11_10.csv",
+    "SG_Data12_11.csv"
 ]
-
 
 MA_WINDOW = 1000     # Moving-average window size 
 ENCODING = 'latin1' 
